@@ -25,7 +25,7 @@
 export default {
   data () {
     return {
-      currentDate: new Date()
+      currentDate: new Date().toLocaleString()
     }
   }
 }
