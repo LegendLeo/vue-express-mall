@@ -6,8 +6,8 @@
   </el-footer>
 </template>
 
-<script>
-export default {
-
+<style lang="less" scoped>
+.el-footer {
+  text-align: center;
 }
-</script>
+</style>
