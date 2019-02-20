@@ -36,7 +36,7 @@ export default {
     text-decoration: none;
     h1 {
       display: inline;
-      font-size: 2.6em;
+      font-size: 2.4em;
     }
   }
 }

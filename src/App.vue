@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import MainHeader from '@/components/MainHeader.vue'
-import MainFooter from '@/components/MainFooter.vue'
+import MainHeader from '@/components/MainHeader'
+import MainFooter from '@/components/MainFooter'
 
 export default {
   name: 'app',
@@ -30,6 +30,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+ul, ol {
+  padding: 0;
+  margin: 0;
+}
 .clearfix:before,
 .clearfix:after {
   display: table;
@@ -46,6 +50,14 @@ body {
   }
   .el-main {
     padding: 0;
+    background: #f5f7fc;
+    overflow: visible;
+  }
+}
+.el-breadcrumb__inner.is-link {
+  color: #666 !important;
+  &:hover {
+    color: #409EFF !important;
   }
 }
 </style>
