@@ -14,12 +14,14 @@
 
 <style lang="less" scoped>
 .breadcrumb {
+  color: #666 !important;
   background: #f0f0f0;
   margin-bottom: 15px;
+  box-shadow: 0 0 12px 0 rgba(0,0,0,.1) inset;
   .container {
     padding: 10px 0;
     line-height: 25px;
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 </style>
