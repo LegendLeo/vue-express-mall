@@ -1,8 +1,15 @@
 <template>
-  <el-header>
+  <el-header height="80px">
     <div class="container">
-      <img src="@/assets/logo.png" alt="logo" class="logo">
-      <a href="/" class="title">
+      <img
+        src="@/assets/images/logo.png"
+        alt="logo"
+        class="logo"
+      >
+      <a
+        href="/"
+        class="title"
+      >
         <h1>基于Express的商城系统——Leo的商城</h1>
       </a>
     </div>
@@ -17,6 +24,7 @@ export default {
 
 <style lang="less" scoped>
 .el-header .container {
+  height: 100%;
   display: flex;
   align-items: center;
   .logo {
@@ -28,7 +36,7 @@ export default {
     text-decoration: none;
     h1 {
       display: inline;
-      font-size: 3em;
+      font-size: 2.6em;
     }
   }
 }
