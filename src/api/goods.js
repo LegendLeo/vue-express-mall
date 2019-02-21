@@ -1,5 +1,5 @@
-const getGoodsList = function () {
-  return window.axios.get('/goods')
+const getGoodsList = function (params) {
+  return window.axios.get('/goods', { params })
 }
 
 export { getGoodsList }

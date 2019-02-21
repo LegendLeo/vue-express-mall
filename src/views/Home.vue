@@ -2,25 +2,8 @@
   <el-main>
     <breadcrumb></breadcrumb>
     <div class="container">
-      <section>
-        <div class="section-head">
-          <span class="title">热门促销</span>
-          <ul class="categories"></ul>
-        </div>
-        <product-list :data="goodsList"></product-list>
-      </section>
-      <section>
-        <div class="section-head">
-          <span class="title">精品推荐</span>
-          <ul class="categories">
-            <li
-              v-for="item in categories"
-              :key="item.value"
-            >{{ item.label }}</li>
-          </ul>
-        </div>
-        <product-list :data="goodsList"></product-list>
-      </section>
+      <handle-bar @change="changeGoodsType"></handle-bar>
+      <product-list :data="goodsList"></product-list>
     </div>
   </el-main>
 </template>
@@ -28,38 +11,34 @@
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
 import ProductList from '@/components/ProductList'
+import HandleBar from '@/components/HandleBar'
 import { getGoodsList } from '@/api/goods'
 
 export default {
   name: 'home',
   data () {
     return {
-      goodsList: [],
-      categories: [
-        {
-          label: '家用',
-          value: 'home'
-        },
-        {
-          label: '配件',
-          value: 'fitting'
-        },
-        {
-          label: '出行',
-          value: 'travel'
-        }
-      ]
+      goodsList: []
     }
   },
   created () {
-    getGoodsList().then(res => {
-      const data = res.data
-      this.goodsList = data
-    })
+    this.getGoods()
+  },
+  methods: {
+    getGoods (params) {
+      getGoodsList(params).then(res => {
+        const data = res.data
+        this.goodsList = data
+      })
+    },
+    changeGoodsType (type) {
+      this.getGoods({ type })
+    }
   },
   components: {
     Breadcrumb,
-    ProductList
+    ProductList,
+    HandleBar
   }
 }
 </script>
