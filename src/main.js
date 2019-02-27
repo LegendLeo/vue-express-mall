@@ -8,7 +8,7 @@ import './plugins/element'
 
 Vue.config.productionTip = false
 Vue.use(VueLazyload, {
-  loading: '/static/images/loading.svg'
+  loading: require('@/assets/images/loading.svg')
 })
 
 new Vue({

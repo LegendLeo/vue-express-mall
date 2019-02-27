@@ -5,7 +5,7 @@
       class="item"
     >
       <img
-        v-lazy="'/static/images/' + item.img"
+        v-lazy="'//localhost:3000/images/' + item.img"
         class="item-img"
         :alt="item.productName"
       >
