@@ -1,6 +1,10 @@
 <template>
   <el-row :gutter="20">
-    <product-list-item v-for="item in data" :key="item.id" :item="item"></product-list-item>
+    <product-list-item
+      v-for="item in data"
+      :key="item.id"
+      :item="item"
+    ></product-list-item>
   </el-row>
 </template>
 
@@ -19,5 +23,4 @@ export default {
 </script>
 
 <style>
-
 </style>
