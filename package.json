@@ -6,7 +6,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "dev": "vue-cli-service serve",
-    "server": "node ./server/app.js"
+    "server": "node ./server/bin/www"
   },
   "dependencies": {
     "element-ui": "^2.5.4",
