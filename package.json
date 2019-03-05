@@ -1,0 +1,11 @@
+{
+  "name": "vue-express-mall",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "cd ./front-end/ && npm run dev",
+    "serve": "node ./back-end/bin/www",
+    "build": "cd ./front-end/ && npm run build",
+    "lint": "cd ./front-end/ && npm run lint"
+  }
+}

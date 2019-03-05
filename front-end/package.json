@@ -1,12 +1,11 @@
 {
-  "name": "vue-express-mall",
+  "name": "vue-express-mall-front-end",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
     "dev": "vue-cli-service serve",
-    "server": "node ./server/bin/www"
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "element-ui": "^2.5.4",
