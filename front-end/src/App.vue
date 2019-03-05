@@ -48,7 +48,16 @@ ul, ol {
     width: 1200px;
     margin: 0 auto;
   }
+  .el-header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #fff;
+    z-index: 999;
+  }
   .el-main {
+    margin-top: 80px;
     padding: 0;
     background: #f5f7fc;
     overflow: visible;
