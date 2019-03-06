@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import ProductListItem from '@/components/ProductListItem'
+import ProductListItem from '@/components/product/ProductListItem'
 
 export default {
   name: 'List',

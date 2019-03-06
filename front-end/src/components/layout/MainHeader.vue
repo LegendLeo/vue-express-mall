@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import ShoppingCart from '../components/ShoppingCart'
+import ShoppingCart from '@/components/shopping-cart/ShoppingCart'
 export default {
   components: {
     ShoppingCart

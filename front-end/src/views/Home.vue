@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import Breadcrumb from '@/components/Breadcrumb'
-import ProductList from '@/components/ProductList'
-import HandleBar from '@/components/HandleBar'
+import Breadcrumb from '@/components/layout/Breadcrumb'
+import ProductList from '@/components/product/ProductList'
+import HandleBar from '@/components/layout/HandleBar'
 import { getGoodsList } from '@/api/goods'
 
 export default {
