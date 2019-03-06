@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import store from './store/'
 import VueLazyload from 'vue-lazyload'
 import GLOBAL from './global'
 import './plugins/axios'

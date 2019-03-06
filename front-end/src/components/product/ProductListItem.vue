@@ -16,7 +16,7 @@
             <span>￥{{ item.price }}</span>
             <del>￥{{ item.price }}</del>
           </div>
-          <div class="check-btn">加入购物车</div>
+          <div class="check-btn" @click="addCartItem(item)">加入购物车</div>
         </div>
       </div>
     </el-card>
@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   props: {
     item: Object
@@ -32,6 +34,11 @@ export default {
     return {
       currentDate: new Date().toLocaleString()
     }
+  },
+  methods: {
+    ...mapMutations({
+      addCartItem: 'ADD_CART_ITEM'
+    })
   }
 }
 </script>
