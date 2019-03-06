@@ -11,7 +11,7 @@
 <script>
 import Breadcrumb from '@/components/layout/Breadcrumb'
 import ProductList from '@/components/product/ProductList'
-import HandleBar from '@/components/layout/HandleBar'
+import HandleBar from '@/components/product/HandleBar'
 import { getGoodsList } from '@/api/goods'
 
 export default {
