@@ -5,7 +5,9 @@
       @click="showCart = true"
     >
       <i class="iconfont icon-caigou"></i>
-      <span>购物车</span>
+      <el-badge :value="12">
+        <span>购物车</span>
+      </el-badge>
     </div>
     <div
       class="modal-overlay"
@@ -50,13 +52,14 @@ export default {
 }
 .pushy {
   position: fixed;
-  width: 500px;
   height: 100vh;
   top: 0;
+  right: 0;
   z-index: 9999;
   background: #fff;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+  transform: translate3d(100%, 0, 0);
   transition: transform 0.2s cubic-bezier(0.16, 0.68, 0.43, 0.99);
 }
 .wrapper {
@@ -70,6 +73,7 @@ export default {
     .iconfont {
       font-size: 30px;
       color: @main-blue;
+      transform: translateY(2px);
     }
   }
 }
@@ -80,19 +84,17 @@ export default {
 }
 @media only screen and (min-width: 768px) {
   .pushy {
-    width: 700px;
-    transform: translate3d(100%, 0, 0);
+    width: 500px;
   }
   .wrapper-open {
     .pushy {
-      transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
     }
   }
 }
 @media only screen and (max-width: 767px) {
   .pushy {
     width: 100vw;
-    transform: translate3d(100vw, 0, 0);
   }
   .wrapper-open {
     .pushy {
