@@ -13,7 +13,7 @@
       <el-table :data="cartList"
         ref="cartTable"
         @selection-change="handleCartSelect"
-        height="80%">
+        height="calc(100% - 50px)">
         <el-table-column type="selection"
           width="50"></el-table-column>
         <el-table-column label="主图"
@@ -64,7 +64,7 @@
       </el-table>
       <div class="handle-box">
         <div class="handle-box-left">
-          <el-checkbox :value="selectedAll" @change="toggleSelection(cartList)">全选</el-checkbox>
+          <el-checkbox :value="selectedAll" @change="toggleSelection">全选</el-checkbox>
         </div>
         <div class="handle-box-right">
           <p>￥{{ totalPrice }}</p>
@@ -118,10 +118,18 @@ export default {
       }, 0)
       this.totalPrice = total
     },
-    toggleSelection (rows) {
-      rows.forEach(row => {
-        this.$refs.cartTable.toggleRowSelection(row)
-      })
+    toggleSelection () {
+      if (!this.selectedAll) {
+        this.cartList.forEach(row => {
+          if (!this.selected.includes(row)) {
+            this.$refs.cartTable.toggleRowSelection(row)
+          }
+        })
+      } else {
+        this.cartList.forEach(row => {
+          this.$refs.cartTable.toggleRowSelection(row)
+        })
+      }
     },
     ...mapMutations({
       changeCartItemCount: 'CHANGE_CART_ITEM_COUNT',
@@ -197,7 +205,10 @@ export default {
   }
 }
 .handle-box {
-  margin-top: 20px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 640px;
   background: #fff;
   border: 1px solid #e9e9e9;
   font-size: 16px;
