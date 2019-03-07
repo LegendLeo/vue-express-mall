@@ -38,7 +38,7 @@
             <div class="flex-cell">
               <el-button size="mini"
                 @click="changeItemCount(false, scope.row.id)">-</el-button>
-              <el-input :value="cartList[scope.$index].count"
+              <el-input :value="scope.row.count"
                 size="mini"
                 type="number"
                 :min="1"
@@ -63,8 +63,13 @@
         </el-table-column>
       </el-table>
       <div class="handle-box">
-        <p>￥{{ totalPrice }}</p>
-        <div class="check-btn">去支付</div>
+        <div class="handle-box-left">
+          <el-checkbox :value="selectedAll" @change="toggleSelection(cartList)">全选</el-checkbox>
+        </div>
+        <div class="handle-box-right">
+          <p>￥{{ totalPrice }}</p>
+          <div class="check-btn">去支付</div>
+        </div>
       </div>
     </div>
   </div>
@@ -77,10 +82,14 @@ export default {
   data () {
     return {
       showCart: false,
-      totalPrice: 0
+      totalPrice: 0,
+      selected: []
     }
   },
   computed: {
+    selectedAll () {
+      return this.selected.length === this.cartList.length
+    },
     ...mapGetters([
       'cartList',
       'cartListCount'
@@ -102,11 +111,17 @@ export default {
         })
     },
     handleCartSelect (selection) {
+      this.selected = selection
       let total = selection.reduce((total, cur) => {
         total += cur.count * cur.price
         return total
       }, 0)
       this.totalPrice = total
+    },
+    toggleSelection (rows) {
+      rows.forEach(row => {
+        this.$refs.cartTable.toggleRowSelection(row)
+      })
     },
     ...mapMutations({
       changeCartItemCount: 'CHANGE_CART_ITEM_COUNT',
@@ -187,21 +202,29 @@ export default {
   border: 1px solid #e9e9e9;
   font-size: 16px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   height: 50px;
-  p {
-    margin: 0;
+  &-left {
+    padding-left: 20px;
   }
-  .check-btn {
-    width: 100px;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    font-size: 24px;
-    background: @main-orange;
-    color: #ffffff;
-    margin-left: 20px;
+  &-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    p {
+      margin: 0;
+    }
+    .check-btn {
+      width: 100px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      font-size: 24px;
+      background: @main-orange;
+      color: #ffffff;
+      margin-left: 20px;
+    }
   }
 }
 </style>
