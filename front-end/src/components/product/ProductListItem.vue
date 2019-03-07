@@ -16,7 +16,7 @@
             <span>￥{{ item.price }}</span>
             <del>￥{{ item.price }}</del>
           </div>
-          <div class="check-btn" @click="addCartItem(item)">加入购物车</div>
+          <div class="check-btn" @click="addToCart(item)">加入购物车</div>
         </div>
       </div>
     </el-card>
@@ -36,6 +36,10 @@ export default {
     }
   },
   methods: {
+    addToCart (item) {
+      this.addCartItem(item)
+      this.$message.success('添加成功！')
+    },
     ...mapMutations({
       addCartItem: 'ADD_CART_ITEM'
     })
