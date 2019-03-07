@@ -12,8 +12,16 @@ const shoppingCart = {
         state.cartList.push(item)
       }
     },
-    CHANGE_CART_ITEM_COUNT: (state, id, count) => {
+    CHANGE_CART_ITEM_COUNT: (state, item) => {
       let type = state.cartList.find(originItem => originItem.id === item.id)
+      if (item.isPlus) {
+        type.count = type.count + 1
+      } else if (type.count > 1) {
+        type.count--
+      }
+    },
+    DELETE_CART_ITEM: (state, id) => {
+      state.cartList = state.cartList.filter(item => item.id !== id)
     }
   }
 }

@@ -1,81 +1,83 @@
 <template>
   <div :class="showCart ? 'wrapper-open wrapper' : 'wrapper'">
-    <div
-      class="nav-item"
-      @click="showCart = true"
-    >
+    <div class="nav-item"
+      @click="showCart = true">
       <i class="iconfont icon-caigou"></i>
       <el-badge :value="cartListCount">
         <span>购物车</span>
       </el-badge>
     </div>
-    <div
-      class="modal-overlay"
-      @click="showCart = false"
-    ></div>
+    <div class="modal-overlay"
+      @click="showCart = false"></div>
     <div class="cart pushy">
-      <el-table
-        :data="cartList"
-        height="90%"
-      >
-        <el-table-column
-          type="selection"
-          width="50"
-        ></el-table-column>
-        <el-table-column
-          label="主图"
-          width="120"
-        >
+      <el-table :data="cartList"
+        ref="cartTable"
+        @selection-change="handleCartSelect"
+        height="80%">
+        <el-table-column type="selection"
+          width="50"></el-table-column>
+        <el-table-column label="主图"
+          width="120">
           <template slot-scope="scope">
-            <img
-              class="cart-item-img"
+            <img class="cart-item-img"
               :src="GLOBAL.serverHost + '/images/' + scope.row.img"
-              :alt="scope.row.name"
-            >
+              :alt="scope.row.name">
           </template>
         </el-table-column>
-        <el-table-column
-          label="名称"
+        <el-table-column label="名称"
           prop="name"
-          width="120"
-        ></el-table-column>
-        <el-table-column
-          label="价格"
-          width="80"
-        >
+          width="120"></el-table-column>
+        <el-table-column label="价格"
+          width="80">
           <template slot-scope="scope">
             ￥{{ scope.row.price }}
           </template>
         </el-table-column>
         <el-table-column label="数量">
           <template slot-scope="scope">
-            <el-input-number
-              v-model="scope.row.count"
-              size="mini"
-            ></el-input-number>
+            <div class="flex-cell">
+              <el-button size="mini"
+                @click="changeItemCount(false, scope.row.id)">-</el-button>
+              <el-input :value="cartList[scope.$index].count"
+                size="mini"
+                type="number"
+                :min="1"
+                readonly></el-input>
+              <el-button size="mini"
+                @click="changeItemCount(true, scope.row.id)">+</el-button>
+            </div>
           </template>
         </el-table-column>
-        <el-table-column
-          label="操作"
-          width="60"
-        >
-          <template>
-            <el-button>删除</el-button>
+        <el-table-column label="总价"
+          width="80">
+          <template slot-scope="scope">
+            ￥{{ scope.row.price*scope.row.count }}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作"
+          width="50">
+          <template slot-scope="scope">
+            <i class="iconfont icon-shanchu delete-icon"
+              @click="deleteItem(scope.row.id)"></i>
           </template>
         </el-table-column>
       </el-table>
+      <div class="handle-box">
+        <p>￥{{ totalPrice }}</p>
+        <div class="check-btn">去支付</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   data () {
     return {
       showCart: false,
-      cartListNow: []
+      totalPrice: 0
     }
   },
   computed: {
@@ -84,8 +86,32 @@ export default {
       'cartListCount'
     ])
   },
-  created () {
-    this.cartListNow = Object.assign([], this.cartList)
+  methods: {
+    changeItemCount (isPlus, id) {
+      this.changeCartItemCount({ id, isPlus })
+      this.$forceUpdate()
+    },
+    deleteItem (id) {
+      this.$confirm('确定删除该项么?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          this.deleteCartItem(id)
+        })
+    },
+    handleCartSelect (selection) {
+      let total = selection.reduce((total, cur) => {
+        total += cur.count * cur.price
+        return total
+      }, 0)
+      this.totalPrice = total
+    },
+    ...mapMutations({
+      changeCartItemCount: 'CHANGE_CART_ITEM_COUNT',
+      deleteCartItem: 'DELETE_CART_ITEM'
+    })
   }
 }
 </script>
@@ -141,18 +167,71 @@ export default {
       display: block;
     }
     .pushy {
-      width: 600px;
+      width: 640px;
       transform: translate3d(0, 0, 0);
     }
   }
 }
-.cart-item-img {
-  width: 100%;
+.cart {
+  .cart-item-img {
+    width: 100%;
+  }
+  .delete-icon {
+    color: @main-danger;
+    font-size: 24px;
+  }
+}
+.handle-box {
+  margin-top: 20px;
+  background: #fff;
+  border: 1px solid #e9e9e9;
+  font-size: 16px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 50px;
+  p {
+    margin: 0;
+  }
+  .check-btn {
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 24px;
+    background: @main-orange;
+    color: #ffffff;
+    margin-left: 20px;
+  }
 }
 </style>
 
 <style lang="less">
 .el-table .cell {
   text-align: center !important;
+}
+.flex-cell {
+  display: inline-flex;
+  .el-button {
+    width: 30px;
+    font-size: 16px;
+    background: #f5f7fa;
+    padding: 0;
+  }
+  .el-button:first-of-type {
+    border-radius: 3px 0 0 3px;
+  }
+  .el-input,
+  input {
+    width: 50px;
+    border-radius: 0 !important;
+    text-align: center;
+    border-left: none;
+    border-right: none;
+    padding: 0;
+  }
+  .el-button:last-of-type {
+    border-radius: 0 3px 3px 0;
+  }
 }
 </style>
