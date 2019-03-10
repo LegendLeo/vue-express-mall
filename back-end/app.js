@@ -8,7 +8,7 @@ const config = require('./config.js')
 const routes = require('./routes')
 const app = express()
 
-// conect mongodb
+// 连接MongoDB
 mongoDB.connect(config.dbLink, {
   useNewUrlParser: true
 })
@@ -21,7 +21,7 @@ db.on('open', () => {
   console.error('MongoDB已连接')
 })
 
-// view engine setup
+// 视图引擎设置
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
 
@@ -36,17 +36,17 @@ Object.values(routes).forEach(route => {
   app.use('/api', route)
 })
 
-// catch 404 and forward to error handler
+// 捕获404并转发到错误处理程序
 app.use(function(req, res, next) {
   next(createError(404))
 })
 
-// error handler
+// 错误处理
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+  // 设置局部变量，仅在开发中提供报错信息
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
-  // render the error page
+  // 渲染出错页面
   res.status(err.status || 500)
   res.render('error')
 })
