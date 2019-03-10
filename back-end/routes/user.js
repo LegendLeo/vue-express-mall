@@ -14,7 +14,7 @@ router.post('/user/register', function(req, res) {
     password == null ||
     password.trim() == ''
   ) {
-    res.send(response.err('用户名或密码不能为空'))
+    res.send(response.erro('用户名或密码不能为空'))
   } else {
     User.findOne({ username }).then(data => {
       return new Promise((resolve, reject) => {

@@ -18,17 +18,20 @@ db.on('error', err => {
   console.error(err)
 })
 db.on('open', () => {
-  console.error('MongoDB已连接')
+  console.log('MongoDB已连接')
 })
 
 // 视图引擎设置
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
 
+// 请求处理设置
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
+
+// 设置静态文件目录
 app.use(express.static(path.join(__dirname, 'public')))
 
 // 引入所有的路由
