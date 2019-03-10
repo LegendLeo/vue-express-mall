@@ -20,7 +20,7 @@
           width="120">
           <template slot-scope="scope">
             <img class="cart-item-img"
-              :src="GLOBAL.serverHost + '/images/' + scope.row.img"
+              :src="'/images/' + scope.row.img"
               :alt="scope.row.name">
           </template>
         </el-table-column>
