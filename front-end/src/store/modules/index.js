@@ -1,3 +1,4 @@
 import shoppingCart from './shoppingCart'
+import user from './user'
 
-export { shoppingCart }
+export { user, shoppingCart }
