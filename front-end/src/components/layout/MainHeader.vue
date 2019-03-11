@@ -11,16 +11,12 @@
         </a>
       </div>
       <div class="right">
-        <el-dropdown>
+        <el-dropdown v-if="loginStatus">
           <span class="el-dropdown-link">
-            下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+            {{ username }}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>黄金糕</el-dropdown-item>
-            <el-dropdown-item>狮子头</el-dropdown-item>
-            <el-dropdown-item>螺蛳粉</el-dropdown-item>
-            <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-            <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+            <el-dropdown-item @click.native="logOut">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <div v-if="!loginStatus"
@@ -76,7 +72,7 @@
 
 <script>
 import ShoppingCart from '@/components/shopping-cart/ShoppingCart'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { userLogin, userRegister, getCartList } from '@/api/user'
 
 export default {
@@ -92,25 +88,36 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'loginStatus'
+      'loginStatus',
+      'username'
     ])
   },
   created () {
-    getCartList().then(res => {
-      console.log(res)
-    })
+    if (this.loginStatus) {
+      getCartList().then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.error(err.response)
+        this.$message.error(err.response.data.msg)
+        localStorage.removeItem('token')
+      })
+    }
   },
   methods: {
     submitLogin () {
       userLogin(this.user).then(res => {
         if (!res.errCode) {
-          localStorage.setItem('token', res.data.token)
+          const { username, token } = res.data
           this.$message.success('登录成功！')
-          this.dialogRegisterVisible = false
+          this.toggleLoginStatus(token)
+          this.changeUserName(username)
+          this.dialogLoginVisible = false
         } else {
+          localStorage.removeItem('token')
           this.$message.error(res.msg)
         }
       }).catch(err => {
+        localStorage.removeItem('token')
         let data = err.response.data
         this.$message.error(data.msg)
       })
@@ -129,7 +136,16 @@ export default {
         let data = err.response.data
         this.$message.error(data.msg)
       })
-    }
+    },
+    logOut () {
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      location.replace('/')
+    },
+    ...mapMutations({
+      changeUserName: 'CHANGE_USERNAME',
+      toggleLoginStatus: 'TOGGLE_LOGIN_STATUS'
+    })
   },
   components: {
     ShoppingCart
