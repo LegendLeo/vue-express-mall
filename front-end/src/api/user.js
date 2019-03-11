@@ -1,14 +1,17 @@
-const $ = window.axios
-
 const userLogin = params => {
-  return $.post('/user/login', params)
+  return window.axios.post('/user/login', params)
 }
 
 const userRegister = params => {
-  return $.post('/user/register', params)
+  return window.axios.post('/user/register', params)
+}
+
+const getCartList = () => {
+  return window.axios.get('/user/cartlist')
 }
 
 export {
   userLogin,
-  userRegister
+  userRegister,
+  getCartList
 }

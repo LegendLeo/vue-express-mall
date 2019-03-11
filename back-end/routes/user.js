@@ -3,6 +3,7 @@ const router = express.Router()
 const User = require('../models/user')
 const response = require('../utils/response')
 const { md5, signToken, verifyToken } = require('../utils/utils')
+const authToken = require('../utils/auth')
 
 // 登录
 router.post('/user/login', function(req, res) {
@@ -76,6 +77,11 @@ router.post('/user/register', function(req, res) {
         })
     })
   }
+})
+
+router.get('/user/cartlist', authToken, function (req, res) {
+  console.log(req.decoded)
+  res.send(req.decoded)
 })
 
 module.exports = router

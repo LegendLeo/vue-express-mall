@@ -11,6 +11,18 @@
         </a>
       </div>
       <div class="right">
+        <el-dropdown>
+          <span class="el-dropdown-link">
+            下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>黄金糕</el-dropdown-item>
+            <el-dropdown-item>狮子头</el-dropdown-item>
+            <el-dropdown-item>螺蛳粉</el-dropdown-item>
+            <el-dropdown-item disabled>双皮奶</el-dropdown-item>
+            <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <div v-if="!loginStatus"
           class="btn-group">
           <el-button round
@@ -65,7 +77,7 @@
 <script>
 import ShoppingCart from '@/components/shopping-cart/ShoppingCart'
 import { mapGetters } from 'vuex'
-import { userLogin, userRegister } from '@/api/user'
+import { userLogin, userRegister, getCartList } from '@/api/user'
 
 export default {
   data () {
@@ -83,12 +95,18 @@ export default {
       'loginStatus'
     ])
   },
+  created () {
+    getCartList().then(res => {
+      console.log(res)
+    })
+  },
   methods: {
     submitLogin () {
       userLogin(this.user).then(res => {
         if (!res.errCode) {
           localStorage.setItem('token', res.data.token)
           this.$message.success('登录成功！')
+          this.dialogRegisterVisible = false
         } else {
           this.$message.error(res.msg)
         }

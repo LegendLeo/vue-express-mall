@@ -8,7 +8,10 @@ import axios from 'axios'
 
 let config = {
   baseURL: '/api',
-  timeout: 30 * 1000 // Timeout
+  timeout: 30 * 1000,
+  headers: {
+    Authorization: localStorage.getItem('token')
+  }
   // withCredentials: true, // Check cross-site Access-Control
 }
 
