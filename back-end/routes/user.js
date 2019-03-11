@@ -29,7 +29,7 @@ router.post('/user/login', function(req, res) {
     }).then((data) => {
       console.log(data)
       let token = signToken(JSON.stringify(data))
-      res.send(response.success('登录成功', { token }))
+      res.send(response.success('登录成功', { username, token }))
     }).catch(err => {
       console.log(err)
     })
@@ -80,8 +80,8 @@ router.post('/user/register', function(req, res) {
 })
 
 router.get('/user/cartlist', authToken, function (req, res) {
-  console.log(req.decoded)
-  res.send(req.decoded)
+  const { username } = req.decoded
+  res.send(response.success('获取成功', username))
 })
 
 module.exports = router

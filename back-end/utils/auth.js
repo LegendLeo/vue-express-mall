@@ -9,10 +9,10 @@ module.exports = function (req, res, next) {
         req.decoded = data
         next()
       } else {
-        res.send(response.expire())
+        res.status(401).send(response.expire())
       }
     })
   } else {
-    res.send(response.error('没有token，请先登录'))
+    res.status(401).send(response.error('没有token，请先登录'))
   }
 }
