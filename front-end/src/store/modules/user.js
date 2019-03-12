@@ -10,6 +10,7 @@ const user = {
     LOG_IN (state, info) {
       state.username = info.username
       state.isAdmin = Boolean(info.isAdmin)
+      window.axios.defaults.headers.Authorization = info.token
       localStorage.setItem('token', info.token)
       localStorage.setItem('username', info.username)
       if (info.isAdmin) {
@@ -23,6 +24,7 @@ const user = {
       localStorage.removeItem('token')
       localStorage.removeItem('username')
       localStorage.removeItem('isAdmin')
+      delete window.axios.defaults.headers.Authorization
       router.replace('/')
     }
   }

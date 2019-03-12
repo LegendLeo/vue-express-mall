@@ -24,8 +24,8 @@ const verifyToken = token => {
 }
 
 const authToken = (req, res, next) => {
-  let token = req.headers.authorization
-  if (token) {
+  let token = req.headers.Authorization
+  if (token && token !== 'null') {
     verifyToken(token).then(data => {
       if (data) {
         req.decoded = data
@@ -35,7 +35,7 @@ const authToken = (req, res, next) => {
       }
     })
   } else {
-    res.status(401).send(response.error('没有token，请先登录'))
+    res.status(401).send(response.error('非法操作，请先登录'))
   }
 }
 
