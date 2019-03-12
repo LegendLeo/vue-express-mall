@@ -1,3 +1,6 @@
+import Router from 'vue-router'
+const router = new Router()
+
 const user = {
   state: {
     username: localStorage.getItem('username'),
@@ -14,11 +17,13 @@ const user = {
         localStorage.setItem('isAdmin', info.isAdmin)
       }
     },
-    LOG_OUT () {
+    LOG_OUT (state) {
+      state.username = ''
+      state.isAdmin = false
       localStorage.removeItem('token')
       localStorage.removeItem('username')
       localStorage.removeItem('isAdmin')
-      location.replace('/')
+      router.replace('/')
     }
   }
 }
