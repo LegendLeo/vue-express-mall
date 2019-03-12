@@ -1,9 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
-const response = require('../utils/response')
-const { md5, signToken } = require('../utils/utils')
-const authToken = require('../utils/auth')
+const { response, md5, signToken, authToken } = require('../utils')
 
 // 登录
 router.post('/user/login', function(req, res) {

@@ -1,4 +1,4 @@
-module.exports = {
+module.exports.response = {
   success: function (msg = '成功', data = {}) {
     return {
       errCode: 0,
