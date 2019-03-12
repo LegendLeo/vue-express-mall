@@ -57,14 +57,12 @@ router.post('/user/register', function(req, res) {
           reject()
         } else {
           resolve()
-        }
-      })
-        .then(() => {
           return new User({
             username,
             password: md5(password)
           }).save()
-        })
+        }
+      })
         .then(data => {
           if (data) {
             res.send(response.success('注册成功'))
@@ -77,6 +75,10 @@ router.post('/user/register', function(req, res) {
             console.error(err)
           }
         })
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send(response.error('注册失败'))
     })
   }
 })
