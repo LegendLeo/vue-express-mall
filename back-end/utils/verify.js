@@ -1,7 +1,7 @@
 const md5 = require('md5')
 const jwt = require('jsonwebtoken')
 const config = require('../config')
-const response = require('./response')
+const { response } = require('./response')
 
 const getMd5 = str => {
   return md5(str, config.md5Secret)
