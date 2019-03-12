@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 const response = require('../utils/response')
-const { md5, signToken, verifyToken } = require('../utils/utils')
+const { md5, signToken } = require('../utils/utils')
 const authToken = require('../utils/auth')
 
 // 登录
@@ -27,9 +27,15 @@ router.post('/user/login', function(req, res) {
         }
       })
     }).then((data) => {
-      console.log(data)
       let token = signToken(JSON.stringify(data))
-      res.send(response.success('登录成功', { username, token }))
+      let message = {
+        username,
+        token
+      }
+      if (data.role === 'admin') {
+        message.isAdmin = true
+      }
+      res.send(response.success('登录成功', message))
     }).catch(err => {
       console.log(err)
     })

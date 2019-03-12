@@ -11,7 +11,7 @@
         </a>
       </div>
       <div class="right">
-        <el-dropdown v-if="loginStatus">
+        <el-dropdown v-if="isLoggedIn" size="mini">
           <span class="el-dropdown-link">
             {{ username }}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
@@ -19,7 +19,7 @@
             <el-dropdown-item @click.native="logOut">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <div v-if="!loginStatus"
+        <div v-if="!isLoggedIn"
           class="btn-group">
           <el-button round
             type="primary"
@@ -30,6 +30,7 @@
             size="mini"
             @click="dialogRegisterVisible = true">注册</el-button>
         </div>
+        <el-button v-else-if="isAdmin" round size="small" type="primary">管理后台</el-button>
         <shopping-cart v-else></shopping-cart>
       </div>
     </div>
@@ -88,12 +89,13 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'loginStatus',
+      'isAdmin',
+      'isLoggedIn',
       'username'
     ])
   },
   created () {
-    if (this.loginStatus) {
+    if (this.isLoggedIn) {
       getCartList().then(res => {
         console.log(res)
       }).catch(err => {
@@ -107,17 +109,13 @@ export default {
     submitLogin () {
       userLogin(this.user).then(res => {
         if (!res.errCode) {
-          const { username, token } = res.data
+          this.logIn(res.data)
           this.$message.success('登录成功！')
-          this.toggleLoginStatus(token)
-          this.changeUserName(username)
           this.dialogLoginVisible = false
         } else {
-          localStorage.removeItem('token')
           this.$message.error(res.msg)
         }
       }).catch(err => {
-        localStorage.removeItem('token')
         let data = err.response.data
         this.$message.error(data.msg)
       })
@@ -137,14 +135,9 @@ export default {
         this.$message.error(data.msg)
       })
     },
-    logOut () {
-      localStorage.removeItem('token')
-      localStorage.removeItem('username')
-      location.replace('/')
-    },
     ...mapMutations({
-      changeUserName: 'CHANGE_USERNAME',
-      toggleLoginStatus: 'TOGGLE_LOGIN_STATUS'
+      logIn: 'LOG_IN',
+      logOut: 'LOG_OUT'
     })
   },
   components: {
@@ -179,5 +172,8 @@ export default {
     display: flex;
     align-items: center;
   }
+}
+.el-dropdown {
+  margin-right: 15px;
 }
 </style>

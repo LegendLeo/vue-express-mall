@@ -1,18 +1,24 @@
 const user = {
   state: {
-    loginStatus: localStorage.getItem('token'),
-    userInfo: {
-      username: localStorage.getItem('username')
-    }
+    username: localStorage.getItem('username'),
+    isAdmin: Boolean(localStorage.getItem('isAdmin'))
   },
   mutations: {
-    TOGGLE_LOGIN_STATUS (state, token) {
-      state.loginStatus = token
-      localStorage.setItem('token', token)
+    LOG_IN (state, info) {
+      state.username = info.username
+      state.isAdmin = Boolean(info.isAdmin)
+      localStorage.setItem('token', info.token)
+      localStorage.setItem('username', info.username)
+      if (info.isAdmin) {
+        state.isAdmin = true
+        localStorage.setItem('isAdmin', info.isAdmin)
+      }
     },
-    CHANGE_USERNAME ({ userInfo }, name) {
-      userInfo.username = name
-      localStorage.setItem('username', name)
+    LOG_OUT () {
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      localStorage.removeItem('isAdmin')
+      location.replace('/')
     }
   }
 }
