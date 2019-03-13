@@ -36,6 +36,7 @@
     </div>
     <el-dialog title="注册"
       append-to-body
+      @keyup.enter.native="submitRegister"
       :visible.sync="dialogRegisterVisible">
       <el-form label-width="80px">
         <el-form-item label="用户名">
@@ -53,6 +54,7 @@
     </el-dialog>
     <el-dialog title="登录"
       append-to-body
+      @keyup.enter.native="submitLogin"
       :visible.sync="dialogLoginVisible">
       <el-form label-width="80px">
         <el-form-item label="用户名">
