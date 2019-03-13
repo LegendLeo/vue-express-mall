@@ -24,7 +24,7 @@ const verifyToken = token => {
 }
 
 const authToken = (req, res, next) => {
-  let token = req.headers.Authorization
+  let token = req.headers.authorization
   if (token && token !== 'null') {
     verifyToken(token).then(data => {
       if (data) {
