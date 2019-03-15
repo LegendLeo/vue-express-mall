@@ -21,7 +21,7 @@ export default {
 
 <style lang="less">
 // 阿里图标库（使用了菜鸟裹裹的一套）
-@import '//at.alicdn.com/t/font_1072177_dciwjqkctsa.css';
+@import '//at.alicdn.com/t/font_1072177_xgx3plb1aws.css';
 body {
   margin: 0;
   font-size: 14px;
@@ -59,10 +59,12 @@ ul, ol {
     z-index: 999;
   }
   .el-main {
-    margin-top: 80px;
     padding: 0;
     background: #f5f7fc;
     overflow: visible;
+  }
+  > .el-main {
+    margin-top: 80px;
   }
 }
 .el-breadcrumb__inner.is-link {

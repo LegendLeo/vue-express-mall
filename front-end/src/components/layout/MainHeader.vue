@@ -5,13 +5,14 @@
         <img src="@/assets/images/logo.png"
           alt="logo"
           class="logo">
-        <a href="/"
+        <router-link to="/"
           class="title">
           <h1>基于Express的商城系统——Leo的商城</h1>
-        </a>
+        </router-link>
       </div>
       <div class="right">
-        <el-dropdown v-if="isLoggedIn" size="mini">
+        <el-dropdown v-if="isLoggedIn"
+          size="mini">
           <span class="el-dropdown-link">
             {{ username }}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
@@ -30,7 +31,12 @@
             size="mini"
             @click="dialogRegisterVisible = true">注册</el-button>
         </div>
-        <el-button v-else-if="isAdmin" round size="small" type="primary">管理后台</el-button>
+        <router-link v-else-if="isAdmin"
+          to="/admin">
+          <el-button round
+            size="small"
+            type="primary">管理后台</el-button>
+        </router-link>
         <shopping-cart v-else></shopping-cart>
       </div>
     </div>
