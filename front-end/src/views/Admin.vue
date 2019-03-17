@@ -1,19 +1,22 @@
 <template>
   <div class="wrapper">
     <breadcrumb>管理后台</breadcrumb>
-    <el-aside>
-      <h3>目录</h3>
-      <ul>
-        <li v-for="route in routes"
-          :key="route.name">
-          <router-link :to="route.link">
+    <div class="inner-wrapper">
+      <el-aside>
+        <h3>目录</h3>
+        <ul>
+          <router-link tag="li"
+            v-for="route in routes"
+            :key="route.name"
+            :to="route.link"
+            class="link-item">
             <i :class="'iconfont ' + route.icon"></i>
             <span>{{ route.name }}</span>
           </router-link>
-        </li>
-      </ul>
-    </el-aside>
-    <router-view></router-view>
+        </ul>
+      </el-aside>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -24,8 +27,8 @@ export default {
   data () {
     return {
       routes: [
-        { name: '订单', link: 'orders', icon: 'icon-danju' },
-        { name: '新增', link: 'add', icon: 'icon-chuangjiandanju' }
+        { name: '待办订单', link: 'orders', icon: 'icon-danju' },
+        { name: '新增商品', link: 'add', icon: 'icon-chuangjiandanju' }
       ]
     }
   },
@@ -38,5 +41,31 @@ export default {
 <style lang="less" scoped>
 .wrapper {
   margin-top: 80px;
+  .inner-wrapper {
+    display: flex;
+  }
+}
+.link-item {
+  width: 94%;
+  background: @main-blue;
+  height: 50px;
+  line-height: 50px;
+  margin: 10px auto;
+  text-align: center;
+  font-size: 18px;
+  box-sizing: border-box;
+  color: #ffffff !important;
+  transition: 0.2s;
+  cursor: pointer;
+  .iconfont {
+    font-size: 1.1em;
+    margin-right: 10px;
+  }
+  &.router-link-active,
+  &:hover {
+    background: #ffffff;
+    border: 1px solid @main-blue;
+    color: @main-blue !important;
+  }
 }
 </style>

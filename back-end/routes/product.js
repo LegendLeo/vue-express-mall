@@ -34,11 +34,10 @@ router.post('/product/add', authToken, function(req, res) {
       .then(data => {
         return new Promise((resolve, reject) => {
           if (data) {
-            res.send(response.success('已经有同名商品，请重新输入！'))
+            res.status(409).send(response.error('已经有同名商品，请重新输入！'))
             reject()
           } else {
-            resolve()
-            return new Product(product).save()
+            resolve(new Product(product).save())
           }
         })
           .then(data => {
@@ -51,6 +50,7 @@ router.post('/product/add', authToken, function(req, res) {
           .catch(err => {
             if (err) {
               console.log(err)
+              res.status(400).send(response.error('参数有误，添加失败！'))
             }
           })
       })
