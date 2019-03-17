@@ -2,8 +2,8 @@
   <el-main>
     <breadcrumb></breadcrumb>
     <div class="container">
-      <handle-bar @change="changeGoodsType"></handle-bar>
-      <product-list :data="goodsList"></product-list>
+      <handle-bar @change="changeListType"></handle-bar>
+      <product-list :data="productList"></product-list>
     </div>
   </el-main>
 </template>
@@ -12,27 +12,27 @@
 import Breadcrumb from '@/components/layout/Breadcrumb'
 import ProductList from '@/components/product/ProductList'
 import HandleBar from '@/components/product/HandleBar'
-import { getGoodsList } from '@/api/goods'
+import { getProductList } from '@/api/product'
 
 export default {
   name: 'home',
   data () {
     return {
-      goodsList: []
+      productList: []
     }
   },
   created () {
-    this.getGoods()
+    this.getProduct()
   },
   methods: {
-    getGoods (params) {
-      getGoodsList(params).then(res => {
+    getProduct (params) {
+      getProductList(params).then(res => {
         const data = res.data
-        this.goodsList = data
+        this.productList = data
       })
     },
-    changeGoodsType (type) {
-      this.getGoods({ type })
+    changeListType (type) {
+      this.getProduct({ type })
     }
   },
   components: {
