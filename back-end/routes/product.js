@@ -24,6 +24,19 @@ router.get('/product', function(req, res) {
     })
 })
 
+router.get('/product/:id', function(req, res) {
+  const id = req.params.id
+  Product.findById(id)
+    .then(data => {
+      console.log(data)
+      res.send(response.success('获取成功', data))
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(400).send(response.error())
+    })
+})
+
 router.post('/product/add', authToken, function(req, res) {
   const { product } = req.body
   const { role } = req.decoded
@@ -50,7 +63,7 @@ router.post('/product/add', authToken, function(req, res) {
           .catch(err => {
             if (err) {
               console.log(err)
-              res.status(400).send(response.error('参数有误，添加失败！'))
+              res.status(400).send(response.error())
             }
           })
       })
@@ -59,6 +72,22 @@ router.post('/product/add', authToken, function(req, res) {
         res.status(500).send(response.error('添加失败'))
       })
   }
+})
+
+router.put('/product/update', authToken, function(req, res) {
+  const { product } = req.body
+  const _id = product._id
+  delete product.meta
+  delete product._id
+  Product.findByIdAndUpdate(_id, { $set: product }).then(data => {
+    if (data) {
+      res.send(response.success('更改成功！'))
+    } else {
+      res.status(500).send(response.error('更改失败！'))
+    }
+  }).catch(err => {
+    console.log(err)
+  })
 })
 
 module.exports = router
