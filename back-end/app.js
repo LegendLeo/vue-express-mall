@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
 // 设置静态文件目录
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'upload')))
 
 // 引入所有的路由
 Object.values(routes).forEach(route => {

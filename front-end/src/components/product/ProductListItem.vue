@@ -1,22 +1,19 @@
 <template>
   <el-col :span="6">
-    <el-card
-      :body-style="{ padding: '0px' }"
-      class="item"
-    >
-      <img
-        v-lazy="'/images/' + item.img"
+    <el-card :body-style="{ padding: '0px' }"
+      class="item">
+      <img v-lazy="item.poster"
         class="item-img"
-        :alt="item.productName"
-      >
+        :alt="item.name">
       <div class="item-info">
         <span class="item-name">{{ item.name }}</span>
         <div class="bottom">
           <div class="price">
             <span>￥{{ item.price }}</span>
-            <del>￥{{ item.price }}</del>
+            <del>￥{{ item.oldPrice }}</del>
           </div>
-          <div class="check-btn" @click="addToCart(item)">加入购物车</div>
+          <div class="check-btn"
+            @click="addToCart(item)">加入购物车</div>
         </div>
       </div>
     </el-card>

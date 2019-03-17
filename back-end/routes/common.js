@@ -20,7 +20,7 @@ router.post('/upload', authToken, uploader.any(), function(req, res) {
         res.send(
           response.success('上传成功！', {
             filename,
-            url: `/upload/${fileType}/${filename}`
+            url: `/${fileType}/${filename}`
           })
         )
       })
