@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { addProduct } from "@/api/product";
+import { addProduct } from '@/api/product'
 
 export default {
   data () {

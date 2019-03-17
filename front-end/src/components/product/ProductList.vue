@@ -2,7 +2,7 @@
   <el-row :gutter="20">
     <product-list-item
       v-for="item in data"
-      :key="item.id"
+      :key="item._id"
       :item="item"
     ></product-list-item>
   </el-row>

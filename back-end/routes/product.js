@@ -6,7 +6,7 @@ const { response, authToken } = require('../utils')
 router.get('/product', function(req, res) {
   const { type } = req.query
   let param = {}
-  if (type) {
+  if (type && type !== 'all') {
     param.type = type
   }
   Product.find(param)
