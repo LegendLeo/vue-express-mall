@@ -12,7 +12,10 @@
             <span>￥{{ item.price }}</span>
             <del>￥{{ item.oldPrice }}</del>
           </div>
-          <div class="check-btn"
+          <router-link v-if="isModify" :to="'/admin/modify/' + item._id">
+            <el-button>修改</el-button>
+          </router-link>
+          <div v-else class="check-btn"
             @click="addToCart(item)">加入购物车</div>
         </div>
       </div>
@@ -29,6 +32,7 @@ export default {
   },
   data () {
     return {
+      isModify: this.$route.name === 'modifyProduct',
       currentDate: new Date().toLocaleString()
     }
   },

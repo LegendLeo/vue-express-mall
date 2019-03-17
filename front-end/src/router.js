@@ -2,9 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 const Home = () => import('./views/Home.vue')
+
 const Admin = () => import(/* webpackChunkName: "admin" */ './views/Admin')
-const AddProduct = () => import(/* webpackChunkName: "admin" */ './components/admin/AddProduct')
+const ProductForm = () => import(/* webpackChunkName: "admin" */ './components/admin/ProductForm')
+const ModifyProduct = () => import(/* webpackChunkName: "admin" */ './components/admin/ModifyProduct')
 const Orders = () => import(/* webpackChunkName: "admin" */ './components/admin/Orders')
+
 const About = () => import(/* webpackChunkName: "about" */ './views/About')
 
 Vue.use(Router)
@@ -34,7 +37,17 @@ export default new Router({
         {
           path: 'add',
           name: 'addProduct',
-          component: AddProduct
+          component: ProductForm
+        },
+        {
+          path: 'modify',
+          name: 'modifyProduct',
+          component: ModifyProduct
+        },
+        {
+          path: 'modify/:id',
+          name: 'putProduct',
+          component: ProductForm
         }
       ]
     },

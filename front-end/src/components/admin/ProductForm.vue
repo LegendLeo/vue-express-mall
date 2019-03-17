@@ -28,8 +28,8 @@
           :on-success="handleImageSuccess"
           :before-upload="beforeImageUpload"
           class="image-uploader">
-          <img v-if="imageUrl"
-            :src="imageUrl"
+          <img v-if="product.poster"
+            :src="product.poster"
             class="image">
           <i v-else
             class="el-icon-plus image-uploader-icon"></i>
@@ -43,12 +43,14 @@
 </template>
 
 <script>
-import { addProduct } from '@/api/product'
+import { addProduct, putProduct, getProductDetail } from '@/api/product'
 
 export default {
+  name: 'ProductForm',
   data () {
     return {
       authorization: localStorage.getItem('token'),
+      isModify: Boolean(this.$route.params.id),
       product: {
         name: '',
         type: '',
@@ -78,9 +80,17 @@ export default {
       imageUrl: ''
     }
   },
+  created () {
+    if (this.$route.params.id) {
+      getProductDetail(this.$route.params.id).then(res => {
+        const data = res.data
+        this.product = data
+        console.log(data)
+      })
+    }
+  },
   methods: {
     handleImageSuccess (res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
       this.product.poster = res.data.url
     },
     beforeImageUpload (file) {
@@ -95,17 +105,23 @@ export default {
       return isImg && isLt2M
     },
     submitProduct () {
-      addProduct(this.product).then(res => {
+      let handle = addProduct
+      if (this.isModify) {
+        handle = putProduct
+      }
+      handle(this.product).then(res => {
         if (!res.errCode) {
-          this.$message.success('添加成功！')
-          this.imageUrl = ''
-          this.product = {
-            name: '',
-            type: '',
-            description: '',
-            price: '',
-            oldPrice: '',
-            poster: ''
+          this.$message.success(res.msg)
+          if (!this.isModify) {
+            this.imageUrl = ''
+            this.product = {
+              name: '',
+              type: '',
+              description: '',
+              price: '',
+              oldPrice: '',
+              poster: ''
+            }
           }
         }
       }).catch(err => {
