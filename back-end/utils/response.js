@@ -6,7 +6,7 @@ module.exports.response = {
       msg: msg
     }
   },
-  error: function (msg = '请求参数有错') {
+  error: function (msg = '请求参数有误，操作失败！') {
     return {
       errCode: 110,
       msg
