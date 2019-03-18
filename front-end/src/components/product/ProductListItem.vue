@@ -12,10 +12,16 @@
             <span>￥{{ item.price }}</span>
             <del>￥{{ item.oldPrice }}</del>
           </div>
-          <router-link v-if="isModify" :to="'/admin/modify/' + item._id">
-            <el-button>修改</el-button>
-          </router-link>
-          <div v-else class="check-btn"
+          <template v-if="isModify">
+            <router-link :to="'/admin/modify/' + item._id">
+              <el-button size="small">修改</el-button>
+            </router-link>
+            <el-button type="danger"
+              size="small"
+              @click="deleteItem">删除</el-button>
+          </template>
+          <div v-else
+            class="check-btn"
             @click="addToCart(item)">加入购物车</div>
         </div>
       </div>
@@ -25,6 +31,7 @@
 
 <script>
 import { mapMutations } from 'vuex'
+import { deleteProduct } from '@/api/product'
 
 export default {
   props: {
@@ -37,6 +44,20 @@ export default {
     }
   },
   methods: {
+    deleteItem () {
+      this.$confirm('确认删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteProduct(this.item._id).then(res => {
+          this.$message.success('删除成功！')
+          this.$emit('delete')
+        }).catch(err => {
+          this.$message.error(err.data.msg)
+        })
+      }).catch(() => {})
+    },
     addToCart (item) {
       this.addCartItem(item)
       this.$message.success('添加成功！')

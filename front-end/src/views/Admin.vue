@@ -29,7 +29,7 @@ export default {
       routes: [
         { name: '待办订单', link: '/admin/orders', icon: 'icon-danju' },
         { name: '新增商品', link: '/admin/add', icon: 'icon-chuangjiandanju' },
-        { name: '修改商品', link: '/admin/modify', icon: 'icon-chuangjiandanju' }
+        { name: '管理商品', link: '/admin/modify', icon: 'icon-bianjishuru' }
       ]
     }
   },

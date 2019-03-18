@@ -77,17 +77,30 @@ router.post('/product/add', authToken, function(req, res) {
 router.put('/product/update', authToken, function(req, res) {
   const { product } = req.body
   const _id = product._id
-  delete product.meta
-  delete product._id
-  Product.findByIdAndUpdate(_id, { $set: product }).then(data => {
-    if (data) {
-      res.send(response.success('更改成功！'))
-    } else {
-      res.status(500).send(response.error('更改失败！'))
-    }
-  }).catch(err => {
-    console.log(err)
-  })
+  Product.findByIdAndUpdate(_id, { $set: product })
+    .then(data => {
+      if (data) {
+        res.send(response.success())
+      } else {
+        res.status(500).send(response.error())
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send(response.error())
+    })
+})
+
+router.delete('/product/delete', function(req, res) {
+  const { id } = req.body
+  Product.findByIdAndDelete(id)
+    .then(() => {
+      res.send(response.success('删除成功！'))
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send(response.error())
+    })
 })
 
 module.exports = router

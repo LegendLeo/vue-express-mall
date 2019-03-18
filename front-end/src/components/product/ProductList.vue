@@ -16,7 +16,8 @@
     <el-row :gutter="15">
       <product-list-item v-for="item in productList"
         :key="item._id"
-        :item="item"></product-list-item>
+        :item="item"
+        @delete="getProduct"></product-list-item>
     </el-row>
   </div>
 </template>

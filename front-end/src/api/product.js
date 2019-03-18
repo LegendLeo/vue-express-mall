@@ -14,4 +14,8 @@ const putProduct = product => {
   return window.axios.put('/product/update', { product })
 }
 
-export { getProductList, getProductDetail, addProduct, putProduct }
+const deleteProduct = id => {
+  return window.axios.delete('/product/delete', { data: { id } })
+}
+
+export { getProductList, getProductDetail, addProduct, putProduct, deleteProduct }
