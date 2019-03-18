@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const fse = require('fs-extra')
+const path = require('path')
 const multer = require('multer')
-const uploader = multer({ dest: './back-end/upload/temp/' })
+const uploader = multer({ dest: path.join(__dirname, '../upload/temp/') })
 const { response, authToken, formatTime } = require('../utils')
 
 // 上传文件
