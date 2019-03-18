@@ -50,36 +50,35 @@ router.post('/user/register', function(req, res) {
   ) {
     res.send(response.error('用户名或密码不能为空'))
   } else {
-    User.findOne({ username }).then(data => {
-      return new Promise((resolve, reject) => {
-        if (data) {
-          res.status(400).send(response.error('该用户名已经被使用，请重新输入'))
-          reject()
-        } else {
-          resolve()
-          return new User({
-            username,
-            password: md5(password)
-          }).save()
-        }
-      })
-        .then(data => {
+    User.findOne({ username })
+      .then(data => {
+        return new Promise((resolve, reject) => {
           if (data) {
-            res.send(response.success('注册成功'))
+            res.status(400).send(response.error('该用户名已经被使用，请重新输入'))
+            reject()
           } else {
-            res.status(500).send(response.error('注册失败'))
+            resolve(
+              new User({
+                username,
+                password: md5(password)
+              }).save()
+            )
           }
         })
-        .catch(err => {
-          if (err) {
-            console.error(err)
-          }
-        })
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(500).send(response.error('注册失败'))
-    })
+          .then(() => {
+            res.send(response.success('注册成功'))
+          })
+          .catch(err => {
+            if (err) {
+              console.error(err)
+            }
+          })
+      })
+      .catch(err => {
+        console.log(111)
+        console.log(err)
+        res.status(500).send(response.error('注册失败'))
+      })
   }
 })
 

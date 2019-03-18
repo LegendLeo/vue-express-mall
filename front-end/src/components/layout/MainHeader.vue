@@ -107,8 +107,7 @@ export default {
       getCartList().then(res => {
         console.log(res)
       }).catch(err => {
-        console.error(err.response)
-        this.$message.error(err.response.data.msg)
+        this.$message.error(err.data.msg)
         localStorage.removeItem('token')
       })
     }
@@ -124,7 +123,7 @@ export default {
           this.$message.error(res.msg)
         }
       }).catch(err => {
-        let data = err.response.data
+        let data = err.data
         this.$message.error(data.msg)
       })
     },
@@ -139,7 +138,7 @@ export default {
           this.$message.error(res.msg)
         }
       }).catch(err => {
-        let data = err.response.data
+        let data = err.data
         this.$message.error(data.msg)
       })
     },
