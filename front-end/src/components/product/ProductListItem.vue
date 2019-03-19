@@ -1,5 +1,5 @@
 <template>
-  <el-col :span="6">
+  <el-col :xs="6" :sm="6" :md="6" :xl="4">
     <el-card :body-style="{ padding: '0px' }"
       class="item">
       <img v-lazy="item.poster"
@@ -78,10 +78,6 @@ export default {
     border: 1px solid @main-orange;
   }
 }
-.item-img {
-  width: 100%;
-  max-height: 273px;
-}
 .item-info {
   padding: 14px;
   line-height: 1.2em;
@@ -118,6 +114,26 @@ export default {
         transition: 0.3s;
       }
     }
+  }
+}
+</style>
+
+<style lang="less">
+.el-card__body {
+  position: relative;
+  width: 100%;
+  height: 90px;
+  padding-bottom: 100% !important;
+  .item-img {
+    width: 100%;
+    height: calc(100% - 90px);
+    position: absolute;
+  }
+  .item-info {
+    width: 100%;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 0;
   }
 }
 </style>
