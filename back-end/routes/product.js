@@ -11,7 +11,6 @@ router.get('/product', function(req, res) {
   }
   Product.find(param)
     .then(data => {
-      console.log(data)
       if (data.length > 0) {
         res.send(response.success('获取成功', data))
       } else {
@@ -28,7 +27,6 @@ router.get('/product/:id', function(req, res) {
   const id = req.params.id
   Product.findById(id)
     .then(data => {
-      console.log(data)
       res.send(response.success('获取成功', data))
     })
     .catch(err => {
