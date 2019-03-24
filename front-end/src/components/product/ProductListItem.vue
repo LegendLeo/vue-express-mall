@@ -50,7 +50,7 @@ export default {
   },
   computed: {
     isInCart () {
-      return this.cartList.includes(this.item)
+      return this.cartList.some(val => val._id === this.item._id)
     },
     ...mapGetters([
       'cartList'
