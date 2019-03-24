@@ -181,6 +181,7 @@ export default {
     color: @main-blue;
     display: flex;
     align-items: center;
+    cursor: pointer;
     .iconfont {
       font-size: 30px;
       color: @main-blue;
