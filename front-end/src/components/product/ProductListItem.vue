@@ -1,5 +1,8 @@
 <template>
-  <el-col :xs="6" :sm="6" :md="6" :xl="4">
+  <el-col :xs="6"
+    :sm="6"
+    :md="6"
+    :xl="6">
     <el-card :body-style="{ padding: '0px' }"
       class="item">
       <img v-lazy="item.poster"
@@ -20,9 +23,11 @@
               size="small"
               @click="deleteItem">删除</el-button>
           </template>
-          <div v-else
+          <div v-else-if="isInCart"
+            class="check-btn check-btn-added">已加入购物车</div>
+          <div v-else-if="!isInCart"
             class="check-btn"
-            @click="addToCart(item)">加入购物车</div>
+            @click.once="addToCart(item)">加入购物车</div>
         </div>
       </div>
     </el-card>
@@ -30,7 +35,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { deleteProduct } from '@/api/product'
 
 export default {
@@ -42,6 +47,14 @@ export default {
       isModify: this.$route.name === 'modifyProduct',
       currentDate: new Date().toLocaleString()
     }
+  },
+  computed: {
+    isInCart () {
+      return this.cartList.includes(this.item)
+    },
+    ...mapGetters([
+      'cartList'
+    ])
   },
   methods: {
     deleteItem () {
@@ -56,7 +69,7 @@ export default {
         }).catch(err => {
           this.$message.error(err.data.msg)
         })
-      }).catch(() => {})
+      }).catch(() => { })
     },
     addToCart (item) {
       this.addCartItem(item)
@@ -108,6 +121,7 @@ export default {
       color: @main-orange;
       border: 1px solid @main-orange;
       cursor: pointer;
+      &-added,
       &:hover {
         color: #ffffff;
         background: @main-orange;
