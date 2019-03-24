@@ -20,7 +20,7 @@
           width="120">
           <template slot-scope="scope">
             <img class="cart-item-img"
-              :src="'/images/' + scope.row.img"
+              :src="scope.row.poster"
               :alt="scope.row.name">
           </template>
         </el-table-column>
@@ -35,17 +35,10 @@
         </el-table-column>
         <el-table-column label="数量">
           <template slot-scope="scope">
-            <div class="flex-cell">
-              <el-button size="mini"
-                @click="changeItemCount(false, scope.row.id)">-</el-button>
-              <el-input :value="scope.row.count"
-                size="mini"
-                type="number"
-                :min="1"
-                readonly></el-input>
-              <el-button size="mini"
-                @click="changeItemCount(true, scope.row.id)">+</el-button>
-            </div>
+            <el-input-number v-model="cartCounterArr[scope.$index]"
+              size="mini"
+              :min="1"
+              @change="changeItemCount(scope.$index)"></el-input-number>
           </template>
         </el-table-column>
         <el-table-column label="总价"
@@ -58,13 +51,14 @@
           width="50">
           <template slot-scope="scope">
             <i class="iconfont icon-shanchu delete-icon"
-              @click="deleteItem(scope.row.id)"></i>
+              @click="deleteItem(scope.row._id)"></i>
           </template>
         </el-table-column>
       </el-table>
       <div class="handle-box">
         <div class="handle-box-left">
-          <el-checkbox :value="selectedAll" @change="toggleSelection">全选</el-checkbox>
+          <el-checkbox :value="selectedAll"
+            @change="toggleSelection">全选</el-checkbox>
         </div>
         <div class="handle-box-right">
           <p>￥{{ totalPrice }}</p>
@@ -82,6 +76,7 @@ export default {
   data () {
     return {
       showCart: false,
+      cartCounterArr: [],
       totalPrice: 0,
       selected: []
     }
@@ -95,10 +90,17 @@ export default {
       'cartListCount'
     ])
   },
+  watch: {
+    cartList (val) {
+      this.cartCounterArr = val.map(item => item.count)
+    }
+  },
   methods: {
-    changeItemCount (isPlus, id) {
-      this.changeCartItemCount({ id, isPlus })
-      this.$forceUpdate()
+    changeItemCount (index) {
+      this.changeCartItemCount({
+        _id: this.cartList[index]._id,
+        count: this.cartCounterArr[index]
+      })
     },
     deleteItem (id) {
       this.$confirm('确定删除该项么?', '提示', {
@@ -235,6 +237,7 @@ export default {
       background: @main-orange;
       color: #ffffff;
       margin-left: 20px;
+      cursor: pointer;
     }
   }
 }
@@ -243,29 +246,5 @@ export default {
 <style lang="less">
 .el-table .cell {
   text-align: center !important;
-}
-.flex-cell {
-  display: inline-flex;
-  .el-button {
-    width: 30px;
-    font-size: 16px;
-    background: #f5f7fa;
-    padding: 0;
-  }
-  .el-button:first-of-type {
-    border-radius: 3px 0 0 3px;
-  }
-  .el-input,
-  input {
-    width: 50px;
-    border-radius: 0 !important;
-    text-align: center;
-    border-left: none;
-    border-right: none;
-    padding: 0;
-  }
-  .el-button:last-of-type {
-    border-radius: 0 3px 3px 0;
-  }
 }
 </style>
