@@ -22,6 +22,7 @@
 
 <script>
 import Breadcrumb from '@/components/layout/Breadcrumb'
+import { mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -31,6 +32,16 @@ export default {
         { name: '新增商品', link: '/admin/add', icon: 'icon-chuangjiandanju' },
         { name: '管理商品', link: '/admin/modify', icon: 'icon-bianjishuru' }
       ]
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'isAdmin'
+    ])
+  },
+  created () {
+    if (!this.isAdmin) {
+      this.$router.replace('/home')
     }
   },
   components: {

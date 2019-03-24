@@ -1,6 +1,3 @@
-import Router from 'vue-router'
-const router = new Router()
-
 const user = {
   state: {
     username: localStorage.getItem('username'),
@@ -25,7 +22,7 @@ const user = {
       localStorage.removeItem('username')
       localStorage.removeItem('isAdmin')
       delete window.axios.defaults.headers.Authorization
-      router.replace('/')
+      location.href = '/#/home'
     }
   }
 }
