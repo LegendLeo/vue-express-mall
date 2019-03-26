@@ -10,7 +10,8 @@ const app = express()
 
 // 连接MongoDB
 mongoDB.connect(config.dbLink, {
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useFindAndModify: false
 })
 const db = mongoDB.connection
 db.on('error', err => {
