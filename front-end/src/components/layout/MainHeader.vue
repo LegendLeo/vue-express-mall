@@ -31,13 +31,14 @@
             size="mini"
             @click="dialogRegisterVisible = true">注册</el-button>
         </div>
-        <router-link v-else-if="isAdmin"
+        <shopping-cart v-else></shopping-cart>
+        <router-link v-if="isAdmin"
+          class="admin-btn"
           to="/admin">
           <el-button round
             size="small"
             type="primary">管理后台</el-button>
         </router-link>
-        <shopping-cart v-else></shopping-cart>
       </div>
     </div>
     <el-dialog title="注册"
@@ -105,7 +106,6 @@ export default {
   created () {
     if (this.isLoggedIn) {
       getCartList().then(res => {
-        console.log(res.data)
         this.restoreCart(res.data)
       })
     }
@@ -117,7 +117,6 @@ export default {
           this.logIn(res.data)
           this.$message.success('登录成功！')
           getCartList().then(data => {
-            console.log(data)
             this.restoreCart(data.data)
           })
           this.dialogLoginVisible = false
@@ -185,5 +184,8 @@ export default {
 }
 .el-dropdown {
   margin-right: 15px;
+}
+.admin-btn {
+  margin-left: 20px;
 }
 </style>
