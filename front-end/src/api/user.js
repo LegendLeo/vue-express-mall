@@ -7,11 +7,26 @@ const userRegister = params => {
 }
 
 const getCartList = () => {
-  return window.axios.get('/user/cartlist')
+  return window.axios.get('/user/cart')
+}
+
+const addCartItem = product => {
+  return window.axios.post('/user/cart/add', product)
+}
+
+const updateCartItem = product => {
+  return window.axios.put('/user/cart/update', product)
+}
+
+const deleteCartItem = id => {
+  return window.axios.delete('/user/cart/delete', { data: { id } })
 }
 
 export {
   userLogin,
   userRegister,
-  getCartList
+  getCartList,
+  addCartItem,
+  updateCartItem,
+  deleteCartItem
 }

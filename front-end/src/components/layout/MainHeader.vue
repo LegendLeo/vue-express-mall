@@ -105,10 +105,8 @@ export default {
   created () {
     if (this.isLoggedIn) {
       getCartList().then(res => {
-        console.log(res)
-      }).catch(err => {
-        this.$message.error(err.data.msg)
-        localStorage.removeItem('token')
+        console.log(res.data)
+        this.restoreCart(res.data)
       })
     }
   },
@@ -118,6 +116,10 @@ export default {
         if (!res.errCode) {
           this.logIn(res.data)
           this.$message.success('登录成功！')
+          getCartList().then(data => {
+            console.log(data)
+            this.restoreCart(data.data)
+          })
           this.dialogLoginVisible = false
         } else {
           this.$message.error(res.msg)
@@ -144,7 +146,8 @@ export default {
     },
     ...mapMutations({
       logIn: 'LOG_IN',
-      logOut: 'LOG_OUT'
+      logOut: 'LOG_OUT',
+      restoreCart: 'RESTORE_CART'
     })
   },
   components: {

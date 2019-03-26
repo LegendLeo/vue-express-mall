@@ -205,6 +205,7 @@ export default {
   .delete-icon {
     color: @main-danger;
     font-size: 24px;
+    cursor: pointer;
   }
 }
 .handle-box {
