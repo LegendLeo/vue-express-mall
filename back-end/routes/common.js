@@ -13,7 +13,7 @@ router.post('/upload', authToken, uploader.any(), function(req, res) {
   const now = new Date()
   const filename = formatTime(now, 'yyyyMMdd') + '-' + file.originalname
   const fileType = file.mimetype.split('/')[0]
-  const fileDes = `./back-end/upload/${fileType}/${filename}`
+  const fileDes = path.join(__dirname, `../upload/${fileType}/${filename}`)
   fse.readFile(file.path).then(data => {
     fse
       .outputFile(fileDes, data)
