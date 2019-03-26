@@ -21,10 +21,9 @@ router.post('/user/login', function(req, res) {
           let token = signToken(JSON.stringify(data))
           let message = {
             username,
-            token
-          }
-          if (data.role === 'admin') {
-            message.isAdmin = true
+            token,
+            cartList: data.cartList,
+            isAdmin: data.role === 'admin'
           }
           res.send(response.success('登录成功', message))
         } else {
@@ -32,7 +31,7 @@ router.post('/user/login', function(req, res) {
         }
       })
       .catch(err => {
-        res.status(500).send(response.error('登录失败', message))
+        res.status(500).send(response.error('登录失败'))
         console.log(err)
       })
   }
@@ -75,16 +74,66 @@ router.post('/user/register', function(req, res) {
           })
       })
       .catch(err => {
-        console.log(111)
         console.log(err)
         res.status(500).send(response.error('注册失败'))
       })
   }
 })
 
-router.get('/user/cartlist', authToken, function(req, res) {
-  const { username } = req.decoded
-  res.send(response.success('获取成功', username))
+// 获取购物车列表
+router.get('/user/cart', authToken, function(req, res) {
+  const { _id } = req.decoded
+  User.findById(_id).then(data => {
+    res.send(response.success('获取成功', data.cartList))
+  })
+})
+
+// 增加商品
+router.post('/user/cart/add', authToken, function(req, res) {
+  const userId = req.decoded._id
+  const product = req.body
+  User.findByIdAndUpdate(userId, {
+    $push: {
+      cartList: product
+    }
+  }).then(() => {
+    res.send(response.success('添加成功！'))
+  }).catch(err => {
+    console.log(err)
+    res.send(response.error())
+  })
+})
+
+// 删除商品
+router.delete('/user/cart/delete', authToken, function(req, res) {
+  const userId = req.decoded._id
+  const productId = req.body.id
+  User.findByIdAndUpdate(userId, {
+    $pull: {
+      cartList: { _id: productId }
+    }
+  }).then(() => {
+    res.send(response.success('删除成功！'))
+  }).catch(err => {
+    console.log(err)
+    res.send(response.error())
+  })
+})
+
+// 更改商品数量
+router.put('/user/cart/update', authToken, function(req, res) {
+  const userId = req.decoded._id
+  const { count, _id } = req.body.product
+  User.findOneAndUpdate({ _id: userId, 'cartList._id': _id }, {
+    $set: {
+      'cartList.$.count': count
+    }
+  }).then(() => {
+    res.send(response.success('更改成功！'))
+  }).catch(err => {
+    console.log(err)
+    res.send(response.error())
+  })
 })
 
 module.exports = router

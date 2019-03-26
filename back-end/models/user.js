@@ -5,10 +5,8 @@ const UserSchema = new Schema(
   {
     username: { type: String, required: true, max: 50 },
     password: { type: String, required: true, max: 50 },
-    role: {
-      type: String,
-      default: 'user'
-    }
+    role: { type: String, default: 'user' },
+    cartList: { type: Array }
   },
   {
     timestamps: true
