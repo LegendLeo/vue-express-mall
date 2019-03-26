@@ -123,7 +123,7 @@ router.delete('/user/cart/delete', authToken, function(req, res) {
 // 更改商品数量
 router.put('/user/cart/update', authToken, function(req, res) {
   const userId = req.decoded._id
-  const { count, _id } = req.body.product
+  const { count, _id } = req.body
   User.findOneAndUpdate({ _id: userId, 'cartList._id': _id }, {
     $set: {
       'cartList.$.count': count
