@@ -12,5 +12,6 @@ module.exports = {
         path.resolve(__dirname, './src/variables.less')
       ]
     }
-  }
+  },
+  productionSourceMap: false
 }
